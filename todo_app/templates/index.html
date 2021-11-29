@@ -12,7 +12,15 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
+        {%for items in items%}<!--Used flask notation to loop through the items list-->
+          <li>{{ items.id }} - {{ items.status }} - {{ items.title }}</li><!--Used flask notation to add items into the unordered list-->
+        {%endfor%}
       </ul>
+      <form action="/add" method="post"><!--Added a form to post data to the app-->
+        <label for="item">Add Item</label>
+        <input type="text" id="item" name="item"><br>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </div>
 {% endblock %}
