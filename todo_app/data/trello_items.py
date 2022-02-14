@@ -25,13 +25,15 @@ def get_cards():
     cards = card.json()
     return cards
 
+
 def get_card_id(card_id):
     card_id_url = "https://api.trello.com/1/boards/"+sessionenv["board"]+"/cards/"+card_id+sessioncred
     response = requests.request(
         "GET",
         card_id_url
     )
-    return response.copy
+    item = Item.from_trello_card(card, card_list)
+    return item
 
 def add_card(card_title,card_description):
     url = "https://api.trello.com/1/cards"+sessioncred
@@ -68,3 +70,12 @@ def update_card(card_id,card_status):
     headers=headers
     )
 
+class Item:
+    def __init__(self, id, name, status = 'To Do'):
+        self.id = id
+        self.name = name
+        self.status = status
+    
+    @classmethod
+    def from_trello_card(cls, card, list):
+        return cls(card['id'], card['name'], list['name'])
