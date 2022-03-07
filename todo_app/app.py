@@ -13,10 +13,9 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     trello = get_cards()
-    items = get_items()
     return render_template('index.html', cards = trello, to_do = os.environ.get('TO_DO'), doing = os.environ.get('DOING'), done=os.environ.get('DONE'))#updated the return to load index.html
 
 @app.route('/add', methods=["POST"])#new route for the post
 def add():
-    add_card(request.form.get('item'), request.form.get('description'))
+    add_card(request.form.get('item'), request.form.get('description'), request.form.get('due'))
     return redirect('/')

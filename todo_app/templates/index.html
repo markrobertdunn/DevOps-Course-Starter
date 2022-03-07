@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}To-Do App{% endblock %}
 
-
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4">To-Do App</h1>
@@ -10,75 +9,28 @@
 
   <div class="row">
     <div class="col-md-12">
-      <h2>Doing</h2>
+      <h2>Items</h2>
+      <ul class="list-group mb-4">
         <!-- List the todo items here -->
-        <table border="1px solid black">       
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Action</th>
-          </tr>        
-          {%for card in cards%}
-            {% if card.idList == doing %}
-              <tr>
-                <td>{{ card.name }}</td>
-                <td>{{ card.desc }}</td>
-                <td>{{ card.due }}</td>
-                <td><button type="Done">Done</button> <button type="To_Do">To_Do</button></td>
-              </tr>
-            {%endif%}
-          {%endfor%}
-        </table>
-        <br><br>
-        <h2>To Do</h2>
-        <!-- List the todo items here -->
-        <table border="1px solid black">       
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Action</th>
-          </tr>        
-          {%for card in cards%}
-            {% if card.idList == to_do %}
-              <tr>
-                <td>{{ card.name }}</td>
-                <td>{{ card.desc }}</td>
-                <td>{{ card.due }}</td>
-                <td><button type="Doing">Doing</button> <button type="Done">Done</button></td>
-              </tr>
-            {%endif%}
-          {%endfor%}
-        </table>
-        <br><br>
-        <h2>Done</h2>
-        <!-- List the todo items here -->
-        <table border="1px solid black">       
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Action</th>
-          </tr>        
-          {%for card in cards%}
-            {% if card.idList == done %}
-              <tr>
-                <td>{{ card.name }}</td>
-                <td>{{ card.desc }}</td>
-                <td>{{ card.due }}</td>
-                <td><button type="Doing">Doing</button> <button type="To_Do">To_Do</button></td>
-              </tr>
-            {%endif%}
-          {%endfor%}
-        </table>
-        <br><br>
-
-      <form action="/add" method="post"><!--Added a form to post data to the app-->
+        {%for card in cards%}
+          {% if card.idList == doing %}
+            <li>{{ card.name }} - {{ card.desc }} - {{ card.due }} - Doing </li>
+          {% endif %}
+          {% if card.idList == to_do %}
+            <li>{{ card.name }} - {{ card.desc }} - {{ card.due }} - To-Do </li>
+          {% endif %}
+          {% if card.idList == done %}
+            <li>{{ card.name }} - {{ card.desc }} - {{ card.due }} - Done </li>
+          {% endif %}
+        {%endfor%}
+      </ul>
+      <form action="/add" method="post">
         <label for="item">Add Item</label>
         <input type="text" id="item" name="item"><br>
         <label for="description">Description</label>
         <input type="text" id="description" name="description"><br>
+        <label for="date">Date</label>
+        <input type="date" id="due" name="due"><br>
         <button type="submit">Submit</button>
       </form>
     </div>
