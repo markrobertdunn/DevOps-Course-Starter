@@ -14,13 +14,40 @@
         <!-- List the todo items here -->
         {%for card in cards%}
           {% if card.idList == doing %}
-            <li>{{ card.name }} - {{ card.desc }} - {{ card.due }} - Doing </li>
+            <li>{{ card.name }} - {{ card.desc }} - {{ card.due }} - Doing 
+              <form action="/todo" method="post">
+                <input type="text" name="id" value="{{card.id}}" hidden>
+                <button type="submit">To Do</button>
+              </form>
+              <form action="/done" method="post">
+                <input type="text" name="id" value="{{card.id}}" hidden>
+                <button type="submit">Done</button>
+              </form>
+            </li>
           {% endif %}
           {% if card.idList == to_do %}
-            <li>{{ card.name }} - {{ card.desc }} - {{ card.due }} - To-Do </li>
+            <li>{{ card.id.hidden }}{{ card.name }} - {{ card.desc }} - {{ card.due }} - To-Do 
+              <form action="/doing" method="post">
+                <input type="text" name="id" value="{{card.id}}" hidden>
+                <button type="submit">Doing</button>
+              </form>
+              <form action="/done" method="post">
+                <input type="text" name="id" value="{{card.id}}" hidden>
+                <button type="submit">Done</button>
+              </form>
+            </li>
           {% endif %}
           {% if card.idList == done %}
-            <li>{{ card.name }} - {{ card.desc }} - {{ card.due }} - Done </li>
+            <li>{{ card.id.hidden }}{{ card.name }} - {{ card.desc }} - {{ card.due }} - Done 
+              <form action="/todo" method="post">
+                <input type="text" name="id" value="{{card.id}}" hidden>
+                <button type="submit">To Do</button>
+              </form>
+              <form action="/doing" method="post">
+                <input type="text" name="id" value="{{card.id}}" hidden>
+                <button type="submit">Doing</button>
+              </form>
+            </li>
           {% endif %}
         {%endfor%}
       </ul>

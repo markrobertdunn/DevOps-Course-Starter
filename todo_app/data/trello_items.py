@@ -23,7 +23,11 @@ def get_cards():
         cards_url
    )
     cards = card.json()
-    return cards
+    items=[]
+    for card in cards:
+        item=Item(card["id"],card["name"],card["desc"], card["due"], card["idList"])
+        items.append(item)
+    return items
 
 
 def get_card_id(card_id):
@@ -36,7 +40,7 @@ def get_card_id(card_id):
     return item
 
 def add_card(card_title,card_description,due_date):
-    url = "https://api.trello.com/1/cards"+sessioncred
+    url = "https://api.trello.com/1/cards"+sessioncred  
 
     headers = {
     "Accept": "application/json"
@@ -58,26 +62,28 @@ def add_card(card_title,card_description,due_date):
     print(response.text)
 
 
-def update_card(card_id,card_status):
+def update_card(card_id,idList):
     url = "https://api.trello.com/1/cards/"+card_id+sessioncred
 
     headers = {
     "Accept": "application/json"
     }
 
+    query = {
+    'idList': idList
+    }
     response = requests.request(
     "PUT",
     url,
-    headers=headers
+    headers=headers,
+    params=query
     )
+    print(response.text)
 
 class Item:
-    def __init__(self, id, name, desc, status = 'To Do'):
+    def __init__(self, id, name, desc, due, idList):
         self.id = id
         self.name = name
         self.desc = desc
-        self.status = status
-    
-    @classmethod
-    def from_trello_card(cls, card, list):
-        return cls(card['id'], card['name'], card['desc'], list['name'])
+        self.due = due
+        self.idList = idList
