@@ -50,3 +50,21 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+# Running the app
+
+To provision the app on a vm copy the following to /home/ec2-user
+ * .env.j2
+ * Ansible-Playbook.yml
+ * my-ansible-inventory
+ * todoapp.service
+
+ The app runs using specific board ID, todo list, doing list and done list, update these in .env.j2 if required
+
+ Update my-ansible-inventory to list the correct managed node for your vm
+
+Once all set up run the command 
+
+ansible-playbook Ansible-Playbook.yml -i my-ansible-inventory
+
+Navigate to ip address of managed node and port number :5000
