@@ -44,21 +44,27 @@
       args:
         chdir: /opt/todoapp
 
+    - name: Add Gunicorn
+      ansible.builtin.shell: /home/ec2-user/.local/bin/poetry add gunicorn
+      args:
+        chdir: /opt/todoapp
+
     - name: Template a .env file
       ansible.builtin.template:
         src: /home/ec2-user/.env.j2
         dest: /opt/todoapp/.env
 
-    - name: Copy file with owner and permissions
+    - name: Copy todoapp.service file to directory
       ansible.builtin.copy:
         src: /home/ec2-user/todoapp.service
         dest: /etc/systemd/system/todoapp.service
       become: yes
 
-    - name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+    - name: Restart service
       ansible.builtin.systemd:
         state: restarted
         daemon_reload: yes
         name: todoapp
+
       become: yes
 ...
