@@ -1,0 +1,70 @@
+---
+- name: Install To-Do App on Web server
+  hosts: webservers
+  remote_user: ec2-user
+  vars_prompt:
+
+    - name: SECRET_KEY
+      prompt: Secret key?
+      private: yes
+
+    - name: TOKEN
+      prompt: Token?
+      private: yes
+
+  tasks:
+    - name: Install git on webservers
+      yum:
+        name: git
+        state: present
+      become: yes
+
+    - name: Install Python3 webservers
+      yum:
+        name: python3
+        state: present
+
+    - name: Install Poetry
+      ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+
+    - name: Create a directory for todoapp code
+      ansible.builtin.file:
+        path: /opt/todoapp
+        state: directory
+        owner: ec2-user
+      become: yes
+
+    - name: Git checkout
+      ansible.builtin.git:
+        repo: 'https://github.com/markrobertdunn/DevOps-Course-Starter.git'
+        dest: /opt/todoapp
+
+    - name: Install Project Dependencies
+      ansible.builtin.shell: /home/ec2-user/.local/bin/poetry install
+      args:
+        chdir: /opt/todoapp
+
+    - name: Add Gunicorn
+      ansible.builtin.shell: /home/ec2-user/.local/bin/poetry add gunicorn
+      args:
+        chdir: /opt/todoapp
+
+    - name: Template a .env file
+      ansible.builtin.template:
+        src: /home/ec2-user/.env.j2
+        dest: /opt/todoapp/.env
+
+    - name: Copy todoapp.service file to directory
+      ansible.builtin.copy:
+        src: /home/ec2-user/todoapp.service
+        dest: /etc/systemd/system/todoapp.service
+      become: yes
+
+    - name: Restart service
+      ansible.builtin.systemd:
+        state: restarted
+        daemon_reload: yes
+        name: todoapp
+
+      become: yes
+...
