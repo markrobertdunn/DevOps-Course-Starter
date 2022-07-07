@@ -4,17 +4,16 @@ import requests
 import json
 
 
-from dotenv import load_dotenv
 
-
-load_dotenv()
-
-sessionenv = {
-    "secret":os.environ.get('SECRET_KEY'),
-    "token":os.environ.get('TOKEN'),
-    "board":os.environ.get('BOARD_ID')
-}
-sessioncred = "?key="+sessionenv["secret"]+"&token="+sessionenv["token"]
+def loadenv ():
+    global sessionenv
+    sessionenv = {
+        "secret":os.environ.get('SECRET_KEY'),
+        "token":os.environ.get('TOKEN'),
+        "board":os.environ.get('BOARD_ID')
+        }
+    global sessioncred
+    sessioncred = "?key="+sessionenv["secret"]+"&token="+sessionenv["token"]
 
 def get_cards():
     cards_url = "https://api.trello.com/1/boards/"+sessionenv["board"]+"/cards"+sessioncred
