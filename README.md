@@ -50,3 +50,19 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+
+## Testing
+
+Unit tests are run using test_viewmodel.py
+    The tests pass by selecting an item by status and asserting that the correct item is chosen
+Integration tests using test_app.py
+    The test creates a fake card and assert that a correct response is received.
+
+Pre-requisites are to install pytest using command 
+
+poetry add pytest
+
+Once installed run using command 
+
+poetry run pytest
