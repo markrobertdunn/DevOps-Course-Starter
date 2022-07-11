@@ -1,6 +1,6 @@
 FROM python:3
 
-WORKDIR /opt
+WORKDIR /opt/todo_app
 RUN curl -sSL https://install.python-poetry.org | python -
 
 ENV PATH=/root/.local/bin:$PATH
@@ -16,3 +16,5 @@ COPY .env .
 EXPOSE 5000
 
 ENTRYPOINT [ "poetry","run","flask","run" ,"--host","0.0.0.0"]
+
+poetry run gunicorn "todo_app.app:create_app()" --bind 0.0.0.0
