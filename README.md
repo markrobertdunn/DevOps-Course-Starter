@@ -68,3 +68,14 @@ Once all set up run the command
 ansible-playbook Ansible-Playbook.yml -i my-ansible-inventory
 
 Navigate to ip address of managed node and port number :5000
+
+## Testing
+
+Unit tests are run using test_viewmodel.py
+    The tests pass by selecting an item by status and asserting that the correct item is chosen
+Integration tests using test_app.py
+    The test creates a fake card and assert that a correct response is received.
+
+Once installed run using command 
+
+poetry run pytest
