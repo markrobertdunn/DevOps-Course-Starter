@@ -1,10 +1,10 @@
-name: continuous integration
+name: Continuous Integration
 on: [push]
 
 jobs:
-  build:
-    name: Build and Test
-    runs-on: Unbuntu Latest
-    steps:
-      -uses: actions/checkout@v2
-      -run: echo Hello World
+ build:
+ name: Build and test
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v2
+ - run: echo Hello World
