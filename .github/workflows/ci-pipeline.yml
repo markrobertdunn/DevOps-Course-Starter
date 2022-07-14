@@ -1,0 +1,10 @@
+name: continuous integration
+on: [push]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: Unbuntu Latest
+    steps:
+      -uses: actions/checkout@v2
+      -run: echo Hello World
