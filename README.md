@@ -79,3 +79,27 @@ Integration tests using test_app.py
 Once installed run using command 
 
 poetry run pytest
+
+## Container
+
+The application can be run in a container, the dockerfile is multi stage so can run both development and production from the same dockerfile
+
+DEVELOPMENT
+To build a development image run the following command
+
+docker build --target development --tag todo-app:dev
+
+To run the development container run the following command
+
+docker run --env-file .env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/opt/todo_app/todo_app todo-app:dev
+
+PRODUCTION
+
+To build a production image run the following command
+
+docker build --target production --tag todo-app:prod
+
+To run the production container run the following command
+
+docker run -p 8000:8000 --env-file .env todo-app:prod
+

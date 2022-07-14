@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3 as base
 
 WORKDIR /opt/todo_app
 RUN curl -sSL https://install.python-poetry.org | python -
@@ -11,10 +11,15 @@ COPY poetry.lock .
 RUN poetry install
 
 COPY /todo_app ./todo_app
-COPY .env .
+
+FROM base as production
+
+EXPOSE 5000
+
+ENTRYPOINT [ "poetry","run","gunicorn","todo_app.app:create_app()" ,"--bind","0.0.0.0"]
+
+FROM base as development
 
 EXPOSE 5000
 
 ENTRYPOINT [ "poetry","run","flask","run" ,"--host","0.0.0.0"]
-
-poetry run gunicorn "todo_app.app:create_app()" --bind 0.0.0.0
