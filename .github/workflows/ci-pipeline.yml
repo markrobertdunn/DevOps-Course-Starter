@@ -1,8 +1,9 @@
 name: Continuous Integration
-on: [push | pull request]
+on: push
   paths-ignore:
     - 'documentation/**'
     - 'README.md'
+on: pull request
 
 jobs:
   build:
