@@ -30,4 +30,4 @@ ENTRYPOINT [ "poetry","run","flask","run" ,"--host","0.0.0.0"]
 #test stage
 FROM base as test
 
-ENTRYPOINT [ "poetry","run","pytest"]
+ENTRYPOINT [ "poetry","run","/opt/todo_app/bin/pytest"]
