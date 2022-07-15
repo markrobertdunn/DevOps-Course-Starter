@@ -103,3 +103,12 @@ To run the production container run the following command
 
 docker run -p 8000:8000 --env-file .env todo-app:prod
 
+TESTING INSIDE DOCKER
+
+To build a test image run the following command
+
+docker build --target test --tag my-test-image .
+
+To run the test container run the following command
+
+docker run --env-file .env.test my-test-image
