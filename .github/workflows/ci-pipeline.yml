@@ -3,10 +3,9 @@ on: [push]
 
 jobs:
   build:
-  name: Build and test
-  runs-on: ubuntu-latest
-  steps:
-  - uses: actions/checkout@v2
-  - run: docker build --target test --tag my-test-image .
-  - run: docker run --env-file .env.test my-test-image
-  
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build --target test --tag my-test-image .
+    - run: docker run --env-file .env.test my-test-image
