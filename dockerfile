@@ -1,6 +1,6 @@
 FROM python:3 as base
 
-WORKDIR /opt/todo_app
+WORKDIR /opt
 RUN curl -sSL https://install.python-poetry.org | python -
 
 ENV PATH=/root/.local/bin:$PATH
@@ -30,4 +30,4 @@ ENTRYPOINT [ "poetry","run","flask","run" ,"--host","0.0.0.0"]
 #test stage
 FROM base as test
 
-ENTRYPOINT [ "poetry","run","/opt/todo_app/bin/pytest"]
+ENTRYPOINT [ "poetry","run","pytest"]
