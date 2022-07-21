@@ -51,6 +51,23 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+# Running the app
+
+To provision the app on a vm copy the following to /home/ec2-user
+ * .env.j2
+ * Ansible-Playbook.yml
+ * my-ansible-inventory
+ * todoapp.service
+
+ The app runs using specific board ID, todo list, doing list and done list, update these in .env.j2 if required
+
+ Update my-ansible-inventory to list the correct managed node for your vm
+
+Once all set up run the command 
+
+ansible-playbook Ansible-Playbook.yml -i my-ansible-inventory
+
+Navigate to ip address of managed node and port number :5000
 
 ## Testing
 
@@ -59,10 +76,30 @@ Unit tests are run using test_viewmodel.py
 Integration tests using test_app.py
     The test creates a fake card and assert that a correct response is received.
 
-Pre-requisites are to install pytest using command 
-
-poetry add pytest
-
 Once installed run using command 
 
 poetry run pytest
+
+## Container
+
+The application can be run in a container, the dockerfile is multi stage so can run both development and production from the same dockerfile
+
+DEVELOPMENT
+To build a development image run the following command
+
+docker build --target development --tag todo-app:dev
+
+To run the development container run the following command
+
+docker run --env-file .env -p 5000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/opt/todo_app/todo_app todo-app:dev
+
+PRODUCTION
+
+To build a production image run the following command
+
+docker build --target production --tag todo-app:prod
+
+To run the production container run the following command
+
+docker run -p 8000:8000 --env-file .env todo-app:prod
+
