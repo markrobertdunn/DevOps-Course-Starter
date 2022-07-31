@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  Test Build:
+  Test_Build:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +21,7 @@ jobs:
 
 
 
-  Production Build:
+  Production_Build:
     name: Build and Publish
     if: ${{ github.ref == 'refs/heads/exercise-8' }}
 
