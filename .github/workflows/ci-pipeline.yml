@@ -14,10 +14,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: build test image
-    - run: docker build --target test --tag my-test-image .
+      run: docker build --target test --tag my-test-image .
 
     - name: Run tests
-    - run: docker run --env-file .env.test my-test-image
+      run: docker run --env-file .env.test my-test-image
 
 
 
@@ -33,13 +33,13 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Build Production Image
-      - run: docker build --target production --tag todo-app:prod .
+        run: docker build --target production --tag todo-app:prod .
 
       - name: Run Production Image
-      - run: docker run -p 8000:8000 --env-file .env todo-app:prod --tag production
+        run: docker run -p 8000:8000 --env-file .env todo-app:prod --tag production
 
       - name: Login to Docker
-      - run: docker login --username markrobertdunn --85c6da34-27b9-4012-a95b-eca05b3a56e1 
+        run: docker login --username markrobertdunn --85c6da34-27b9-4012-a95b-eca05b3a56e1 
 
       - name: Publish Production Image to Docker
-      - run: docker push todo-app:prod
+        run: docker push todo-app:prod
