@@ -23,7 +23,7 @@ ENTRYPOINT [ "poetry","run","gunicorn","todo_app.app:create_app()" ,"--bind","0.
 #local development stage
 FROM base as development
 
-EXPOSE 5000
+EXPOSE 8000
 
 ENTRYPOINT [ "poetry","run","flask","run" ,"--host","0.0.0.0"]
 
