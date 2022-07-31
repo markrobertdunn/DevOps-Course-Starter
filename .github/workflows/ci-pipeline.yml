@@ -27,6 +27,7 @@ jobs:
     if: github.event_name == 'push'
     if: github.ref == 'refs/heads/exercise-8'
     steps:
+      - uses: actions/checkout@v2
       - run: echo "Publishing!"
         
       - name: Build Production Image
@@ -40,4 +41,3 @@ jobs:
 
       - name: Publish Production Image to Docker
       - run: docker push todo-app:prod
-      
