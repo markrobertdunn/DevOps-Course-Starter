@@ -36,7 +36,7 @@ jobs:
         run: docker build --target production --tag todo-app:prod .
 
       - name: Run Production Image
-        run: docker run -p 8000:8000 --env-file .env.test todo-app:prod --tag todo-app:prod
+        run: docker run -p 8000:8000 --env-file .env.test todo-app:prod
 
       - name: Login to Docker
         run: docker login --username markrobertdunn --85c6da34-27b9-4012-a95b-eca05b3a56e1 
