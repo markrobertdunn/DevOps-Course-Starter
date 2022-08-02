@@ -43,19 +43,19 @@ jobs:
     name: Build and Release
     needs: Production_Build
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: akhileshns/heroku-deploy@v3.12.12
-          with:
-            heroku_api_key: ${{secrets.HEROKU_API_KEY}}            
-            heroku_app_name: "YOUR APP's NAME"
-            env_file: ".env"
-          env:
-            FLASK_APP: todo_app/app
-            FLASK_ENV: development
-            SECRET_KEY: ${{secrets.SECRET_KEY}}
-            TOKEN: ${{secrets.TOKEN}}
-            BOARD_ID: 61b77a51327f31334159a742
-            TO_DO: 61b77a51327f31334159a743
-            DOING: 61b77a51327f31334159a744
-            DONE: 61b77a51327f31334159a745
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}            
+          heroku_app_name: "YOUR APP's NAME"
+          env_file: ".env"
+        env:
+          FLASK_APP: todo_app/app
+          FLASK_ENV: development
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
+          TOKEN: ${{secrets.TOKEN}}
+          BOARD_ID: 61b77a51327f31334159a742
+          TO_DO: 61b77a51327f31334159a743
+          DOING: 61b77a51327f31334159a744
+          DONE: 61b77a51327f31334159a745
