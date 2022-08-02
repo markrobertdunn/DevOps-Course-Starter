@@ -45,13 +45,13 @@ jobs:
     needs: Production_Build
     steps:
       - uses: actions/checkout@v2
-      -name: login to heroku
-       run: docker login --username mark.dunn@amt-sybex.com --password ${{secrets.HEROKU_API_KEY}} registry.heroku.com
+      - name: login to heroku
+        run: docker login --username mark.dunn@amt-sybex.com --password ${{secrets.HEROKU_API_KEY}} registry.heroku.com
 
-      -run: heroku container:login
+      - run: heroku container:login
 
-      -run: docker tag markrobertdunn/todo-app:$GITHUB_SHA registry.heroku.com/devops-todoapp/web
+      - run: docker tag markrobertdunn/todo-app:$GITHUB_SHA registry.heroku.com/devops-todoapp/web
 
-      -run: docker push registry.heroku.com/devops-todoapp/web
+      - run: docker push registry.heroku.com/devops-todoapp/web
 
-      -run: heroku container:release web
+      - run: heroku container:release web
