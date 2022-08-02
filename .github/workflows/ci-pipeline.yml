@@ -34,7 +34,7 @@ jobs:
         run: docker build --target production --tag todo-app:prod .
 
       - name: Login to Docker
-        run: docker login --username markrobertdunn --85c6da34-27b9-4012-a95b-eca05b3a56e1 
+        run: docker login --username markrobertdunn --password {{ secrets.DOCKERHUBKEY }}
 
       - name: Publish Production Image to Docker
         run: docker push todo-app:prod
