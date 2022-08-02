@@ -49,7 +49,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}            
           heroku_app_name: devops-todoapp
-          env_file: ".env"
+          env_file: .env
         env:
           FLASK_APP: todo_app/app
           FLASK_ENV: development
