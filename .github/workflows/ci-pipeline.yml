@@ -31,10 +31,10 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Build Production Image
-        run: docker build --target production --tag markrobertdunn/todo-app:prod/$GITHUB_SHA .
+        run: docker build --target production --tag markrobertdunn/todo-app:$GITHUB_SHA .
 
       - name: Login to Docker
         run: docker login --username markrobertdunn --password ${{ secrets.DOCKERHUBKEY }}
 
       - name: Publish Production Image to Docker
-        run: docker push markrobertdunn/todo-app:prod/$GITHUB_SHA
+        run: docker push markrobertdunn/todo-app:$GITHUB_SHA
