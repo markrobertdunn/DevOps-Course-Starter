@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: login to heroku
-        run: heroku login --username mark.dunn@amt-sybex.com --password-stdin ${{secrets.HEROKU_API_KEY}} registry.heroku.com
+        run: heroku login --password-stdin ${{secrets.HEROKU_API_KEY}} registry.heroku.com
 
       - run: heroku container:login
 
