@@ -43,14 +43,19 @@ jobs:
     name: Build and Release
     runs-on: ubuntu-latest
     needs: Production_Build
+
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12
+#      - uses: akhileshns/heroku-deploy@v3.12.12
       -name: login to heroku
        run: docker login --username mark.dunn@amt-sybex.com --password ${{secrets.HEROKU_API_KEY}} registry.heroku.com
+
       -run: heroku container:login
+
       -run: docker tag markrobertdunn/todo-app:$GITHUB_SHA registry.heroku.com/devops-todoapp/web
+
       -run: docker push registry.heroku.com/devops-todoapp/web
+      
       -run: heroku container:release web
 #        with:
 #          heroku_api_key: ${{secrets.HEROKU_API_KEY}}            
