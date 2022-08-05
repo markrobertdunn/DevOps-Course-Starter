@@ -7,7 +7,7 @@ ENV PATH=/root/.local/bin:$PATH
 
 COPY pyproject.toml .
 COPY poetry.lock .
-COPY entrypoint.sh
+COPY entrypoint.sh .
 
 RUN poetry install
 
