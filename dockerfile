@@ -7,8 +7,11 @@ ENV PATH=/root/.local/bin:$PATH
 
 COPY pyproject.toml .
 COPY poetry.lock .
+COPY entrypoint.sh
 
 RUN poetry install
+
+RUN chmod +x ./entrypoint.sh
 
 COPY /todo_app ./todo_app
 COPY /tests ./tests
@@ -18,7 +21,7 @@ FROM base as production
 
 EXPOSE 5000
 
-ENTRYPOINT [ "poetry","run","gunicorn","todo_app.app:create_app()" ,"--bind","0.0.0.0"]
+ENTRYPOINT ./entrypoint.sh
 
 #local development stage
 FROM base as development
