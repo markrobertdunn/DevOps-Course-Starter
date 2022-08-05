@@ -21,7 +21,7 @@ FROM base as production
 
 EXPOSE 5000
 
-ENTRYPOINT ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
 
 #local development stage
 FROM base as development
