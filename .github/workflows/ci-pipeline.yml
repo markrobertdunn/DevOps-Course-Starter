@@ -23,7 +23,7 @@ jobs:
 
   Production_Build:
     name: Build and Publish
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/exercise-9' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest    
     needs: Test_Build
 
@@ -47,26 +47,9 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: Production_Build
-#    env: 
-#      HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+
     steps:
       - uses: actions/checkout@v2
 
-#      - name: Build versioned Image
-#        run: docker build --target production --tag markrobertdunn/todo-app:$GITHUB_SHA .
-
-#      - name: Build Releasable Image
-#        run: docker build --target production --tag markrobertdunn/todo-app:latest .
-
-#      - name: login to heroku
- #       run: echo $HEROKU_API_KEY | docker login --username mark.dunn@amt-sybex.com --password-stdin  registry.heroku.com
-
-#      - run: heroku container:login
-
-#      - run: docker tag markrobertdunn/todo-app:$GITHUB_SHA registry.heroku.com/devops-todoapp/web
-
-#      - run: docker push registry.heroku.com/devops-todoapp/web
-
-#      - run: heroku container:release web -a devops-todoapp
-
-      - run: curl -dH -X POST ${{secrets.WEBHOOK_URL}}
+      - name: Pull to azure from dockerhub
+        run: curl -dH -X POST ${{secrets.WEBHOOK_URL}}
