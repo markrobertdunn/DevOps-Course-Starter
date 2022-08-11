@@ -19,14 +19,14 @@ COPY /tests ./tests
 #production stage
 FROM base as production
 
-EXPOSE 5000
+EXPOSE 80
 
 ENTRYPOINT ["./entrypoint.sh"]
 
 #local development stage
 FROM base as development
 
-EXPOSE 8000
+EXPOSE 5000
 
 ENTRYPOINT [ "poetry","run","flask","run" ,"--host","0.0.0.0"]
 
