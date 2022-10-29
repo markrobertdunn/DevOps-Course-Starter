@@ -6,18 +6,18 @@ class Viewmodel:
     def todoitems(self):
         result = []
         for item in self._items:
-            if item.idList == os.environ.get('TO_DO'):
+            if item.status == "To-Do":
                 result.append(item)
         return result
     def doingitems(self):
         result = []
         for item in self._items:
-            if item.idList == os.environ.get('DOING'):
+            if item.status == "Doing":
                 result.append(item)
         return result
     def doneitems(self):
         result = []
         for item in self._items:
-            if item.idList == os.environ.get('DONE'):
+            if item.status == "Done":
                 result.append(item)
         return result
