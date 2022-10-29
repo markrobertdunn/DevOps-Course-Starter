@@ -22,10 +22,14 @@ def get_cards():
     client = pymongo.MongoClient(os.environ.get('ConnectionString'))
     db = client['test-database']
     collection = db.test_collection
-    items=[]
+    item=[]
     for documents in collection.find():
-            items.append(documents)
-
+            item.append(documents)
+    
+    items=item.json()
+    for item in items:
+        item=Item(documents["_id"],documents["name"],documents["desc"],documents["due"],documents["status"])
+        items=append(Item)
     return items
 
 
