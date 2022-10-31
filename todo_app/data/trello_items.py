@@ -7,35 +7,22 @@ import pprint
 
 
 
-def loadenv ():
-    return [] 
-    global sessionenv
-    sessionenv = {
-        "secret":os.environ.get('SECRET_KEY'),
-        "token":os.environ.get('TOKEN'),
-        "board":os.environ.get('BOARD_ID')
-        }
-    global sessioncred
-    sessioncred = "?key="+sessionenv["secret"]+"&token="+sessionenv["token"]
+
 
 def get_cards():
     client = pymongo.MongoClient(os.environ.get('ConnectionString'))
     db = client['test-database']
     collection = db.test_collection
-    item=[]
-    for documents in collection.find():
-            item.append(documents)
+    items=[]
+    returned_items=[]
+    for document in collection.find():
+            items.append(document)
     
-    items=item.json()
+
     for item in items:
-        item=Item(documents["_id"],documents["name"],documents["desc"],documents["due"],documents["status"])
-        items=append(Item)
-    return items
-
-
-
-def get_card_id(card_id):
-    return []
+        my_item=Item(item["_id"],item["name"],item["desc"],item["due"],item["status"])
+        returned_items.append(my_item)
+    return returned_items
 
 
 def add_card(card_title,card_description,due_date):
@@ -50,7 +37,7 @@ def add_card(card_title,card_description,due_date):
     'due':due_date
     }
 
-    post_id = collection.insert_one(query).inserted_id
+    collection.insert_one(query)
 
 
 def update_card(card_id,idList):
