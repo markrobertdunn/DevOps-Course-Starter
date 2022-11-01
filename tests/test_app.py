@@ -1,6 +1,7 @@
 import os
 import pytest
 import requests
+import mongomock
 from todo_app import app
 from dotenv import load_dotenv, find_dotenv
 
@@ -26,13 +27,13 @@ class StubResponse():
 
 # Stub replacement for requests.get(url)
 def stub(method,url):
-    test_board_id = os.environ.get('BOARD_ID')
+    test_board_id = "To-Do"
     fake_response_data = None
     if url == f'https://api.trello.com/1/boards/{test_board_id}/cards?key=TSTKEY&token=TSTTOKEN':
         fake_response_data = [{
             'id': '123abc',
             'name': 'My fake card',
-            'idList': 'TO_DOENV',
+            'status': 'To-Do',
             'desc' : 'some description',
             'due' : None
         }]

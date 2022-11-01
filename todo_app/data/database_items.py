@@ -1,6 +1,5 @@
 from flask import session
 import os
-import requests
 import pymongo
 from bson import ObjectId
 
