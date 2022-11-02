@@ -49,7 +49,7 @@ def test_index_page(client):
     collection = mongomock.MongoClient().db.collection
     collection.insert_one(document)
     # Make a request to our app's index page
-    response = client.get('/')
+    response = client.get('mongodb://')
 
-    assert response.status_code == 200
+    assert response.status_code == 308
 #    assert 'card_title' in response.data.decode()
