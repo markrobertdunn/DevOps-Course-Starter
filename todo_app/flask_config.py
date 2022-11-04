@@ -4,6 +4,6 @@ import os
 class Config:
     def __init__(self):
         """Base configuration variables."""
-        self.ConnectionString = os.environ.get('ConnectionString')
-        if not self.ConnectionString:
-            raise ValueError("No ConnectionString set for Flask application. Did you follow the setup instructions?")
+        self.CONNECTIONSTRING = os.environ.get('CONNECTIONSTRING')
+        if not self.CONNECTIONSTRING:
+            raise ValueError("No CONNECTIONSTRING set for Flask application. Did you follow the setup instructions?")

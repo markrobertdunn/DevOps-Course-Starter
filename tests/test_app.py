@@ -1,6 +1,8 @@
 
 import pytest
 import mongomock
+import pymongo
+import os
 from todo_app import app
 from dotenv import load_dotenv, find_dotenv
 
@@ -14,42 +16,20 @@ def client():
         with test_app.test_client() as client:
             yield client
 
-
-class StubResponse():
-    def __init__(self, fake_response_data):
-        self.fake_response_data = fake_response_data
-
-    def json(self):
-        return self.fake_response_data
-
-# Stub replacement for requests.get(url)
-def stub(method,url):
-
-    fake_response_data = None
-    query = [{
-            '_id': '123abc',
-            'name': 'My fake card',
-            'status': 'To-Do',
-            'desc' : 'some description',
-            'due' : None
-        }]
-
-    fake_response_data = query
-    return StubResponse(fake_response_data)
-
-
-
 def test_index_page(client):
-    document = {
+    query = {
         '_id' : "635be25a7e52bb441c9a87c9",
         'status': "To-Do",
         'name': "card_title",
-        'desc': "card_description"
+        'desc': "card_description",
+        'due': None
         }
-    collection = mongomock.MongoClient().db.collection
-    collection.insert_one(document)
+    db_client = pymongo.MongoClient(os.environ.get('CONNECTIONSTRING'))
+    db = db_client['test-database']
+    collection = db.test_collection
+    collection.insert_one(query)
     # Make a request to our app's index page
-    response = client.get('mongodb://')
+    response = client.get('/')
 
-    assert response.status_code == 308
-#    assert 'card_title' in response.data.decode()
+    assert response.status_code == 200
+    assert 'card_title' in response.data.decode()

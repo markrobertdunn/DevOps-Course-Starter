@@ -4,7 +4,7 @@ import pymongo
 from bson import ObjectId
 
 def get_cards():
-    client = pymongo.MongoClient(os.environ.get('ConnectionString'))
+    client = pymongo.MongoClient(os.environ.get('CONNECTIONSTRING'))
     db = client['test-database']
     collection = db.test_collection
     items=[]
@@ -21,7 +21,7 @@ def get_cards():
 
 def add_card(card_title,card_description,due_date):
 
-    client = pymongo.MongoClient(os.environ.get('ConnectionString'))
+    client = pymongo.MongoClient(os.environ.get('CONNECTIONSTRING'))
     db = client['test-database']
     collection = db.test_collection
     query = {
@@ -35,7 +35,7 @@ def add_card(card_title,card_description,due_date):
 
 
 def update_card(card_id,status):
-    client = pymongo.MongoClient(os.environ.get('ConnectionString'))
+    client = pymongo.MongoClient(os.environ.get('CONNECTIONSTRING'))
     db = client['test-database']
     collection = db.test_collection
 
