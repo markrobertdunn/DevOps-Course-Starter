@@ -1,5 +1,5 @@
 from todo_app.data.viewmodel import Viewmodel
-from todo_app.data.trello_items import Item
+from todo_app.data.database_items import Item
 import pytest, os
 from dotenv import load_dotenv, find_dotenv
 
