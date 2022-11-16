@@ -23,7 +23,7 @@ resource "azurerm_service_plan" "main" {
   sku_name = "B1"
 }
 resource "azurerm_linux_web_app" "main" {
-  name = "markdunntodotest" 
+  name = "devopstodoapp" 
   location = data.azurerm_resource_group.main.location 
   resource_group_name = data.azurerm_resource_group.main.name 
   service_plan_id = azurerm_service_plan.main.id 
@@ -95,13 +95,13 @@ resource "azurerm_cosmosdb_account" "db" {
 }
 
 data "azurerm_cosmosdb_account" "todoapp" {
-  name                = "Mark.Dunn@softwireacademy.onmicrosoft.com"
+  name                = "devopstodoapp"
   resource_group_name = "OpenCohort21_MarkDunn_ProjectExercise"
 }
 
 resource "azurerm_cosmosdb_mongo_database" "todoapp" {
   name                = "test-database"
-  resource_group_name = data.azurerm_cosmosdb_account.todoapp.OpenCohort21_MarkDunn_ProjectExercise
-  account_name        = data.azurerm_cosmosdb_account.todoappp.test-database
+  resource_group_name = "OpenCohort21_MarkDunn_ProjectExercise"
+  account_name        = "test-database"
   throughput          = 400
 }
