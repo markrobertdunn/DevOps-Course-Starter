@@ -1,18 +1,14 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import redirect #added render template to the import
-from todo_app.data.session_items import get_items, add_item #added import of functions from session_items
-from todo_app.data.trello_items import get_cards, add_card, update_card, loadenv #added import of functions from session_items
+from todo_app.data.database_items import get_cards, add_card, update_card #added import of functions from session_items
 from todo_app.data.viewmodel import Viewmodel
-import requests, os
+import os
 
 from todo_app.flask_config import Config
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
-    loadenv()
-    
-
 
     @app.route('/')
     def index():
@@ -26,16 +22,16 @@ def create_app():
 
     @app.route('/todo', methods=["POST"])
     def update_todo():
-        update_card(request.form.get('id'), os.environ.get('TO_DO'))
+        update_card(request.form.get('id'), "To-Do")
         return redirect('/')
 
     @app.route('/done', methods=["POST"])
     def update_done():
-        update_card(request.form.get('id'), os.environ.get('DONE'))
+        update_card(request.form.get('id'), "Done")
         return redirect('/')
 
     @app.route('/doing', methods=["POST"])
     def update_doing():
-        update_card(request.form.get('id'), os.environ.get('DOING'))
+        update_card(request.form.get('id'), "Doing")
         return redirect('/')
     return app

@@ -1,5 +1,5 @@
 from todo_app.data.viewmodel import Viewmodel
-from todo_app.data.trello_items import Item
+from todo_app.data.database_items import Item
 import pytest, os
 from dotenv import load_dotenv, find_dotenv
 
@@ -8,9 +8,9 @@ def item_list():
     # Use our test integration config instead of the 'real' version
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
-    item1 = Item("1","Test Item","Test Description",None,os.environ.get('TO_DO'))
-    item2 = Item("2","Another Test Item","AnotherTest Description",None,os.environ.get('DOING'))
-    item3 = Item("3","Yet Another Test Item","Yet AnotherTest Description",None,os.environ.get('DONE'))
+    item1 = Item("1","Test Item","Test Description",None,"To-Do")
+    item2 = Item("2","Another Test Item","AnotherTest Description",None,"Doing")
+    item3 = Item("3","Yet Another Test Item","Yet AnotherTest Description",None,"Done")
     itemlist = [item1,item2,item3]
     return itemlist
 
