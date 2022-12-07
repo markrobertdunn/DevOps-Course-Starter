@@ -1,14 +1,20 @@
 terraform {
-    required_providers {
-        azurerm = {
-            source = "hashicorp/azurerm"
-            version = ">= 3.8"
-        }
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.8"
     }
+  }
+  backend "azurerm" {
+    resource_group_name  = "OpenCohort21_MarkDunn_ProjectExercise"
+    storage_account_name = "open21markdunnstorageacc"
+    container_name       = "todoapp"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
- features {}
+  features {}
 }
 
 data "azurerm_resource_group" "main" {
@@ -16,42 +22,34 @@ data "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_service_plan" "main" {
-  name = "terraformed-asp" 
-  location = data.azurerm_resource_group.main.location 
-  resource_group_name = data.azurerm_resource_group.main.name 
-  os_type = "Linux"
-  sku_name = "B1"
+  name                = "${var.prefix}-terraformed-asp"
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+  os_type             = "Linux"
+  sku_name            = "B1"
 }
 resource "azurerm_linux_web_app" "main" {
-  name = "devopstodoapp" 
-  location = data.azurerm_resource_group.main.location 
-  resource_group_name = data.azurerm_resource_group.main.name 
-  service_plan_id = azurerm_service_plan.main.id 
-  site_config { 
-  application_stack { 
-    docker_image = "appsvcsample/python-helloworld" 
-    docker_image_tag = "latest" 
-  } 
-  } 
-  app_settings = { 
-  "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io" 
+  name                = "${var.prefix}-devopstodoapp"
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+  service_plan_id     = azurerm_service_plan.main.id
+  site_config {
+    application_stack {
+      docker_image     = "markrobertdunn/todo-app"
+      docker_image_tag = "latest"
+    }
+  }
+  app_settings = {
+    "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io"
+    "CONNECTIONSTRING"           = azurerm_cosmosdb_account.main.connection_strings[0]
+    "SECRET_KEY"                 = var.secret_key
   }
 }
 
-resource "azurerm_resource_group" "example" {
-  name     = "example-resource-group"
-  location = "West Europe"
-}
-
-resource "random_integer" "ri" {
-  min = 10000
-  max = 99999
-}
-
-resource "azurerm_cosmosdb_account" "db" {
-  name                = "tfex-cosmos-db-${random_integer.ri.result}"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+resource "azurerm_cosmosdb_account" "main" {
+  name                = "${var.prefix}-tfdevopstodoapp"
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
   offer_type          = "Standard"
   kind                = "MongoDB"
 
@@ -82,26 +80,19 @@ resource "azurerm_cosmosdb_account" "db" {
     max_interval_in_seconds = 300
     max_staleness_prefix    = 100000
   }
-
-  geo_location {
-    location          = "eastus"
-    failover_priority = 1
-  }
-
   geo_location {
     location          = "westus"
     failover_priority = 0
   }
 }
 
-data "azurerm_cosmosdb_account" "todoapp" {
-  name                = "devopstodoapp"
+
+resource "azurerm_cosmosdb_mongo_database" "main" {
+  name                = "${var.prefix}-test-database"
   resource_group_name = "OpenCohort21_MarkDunn_ProjectExercise"
+  account_name        = azurerm_cosmosdb_account.main.name
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
-resource "azurerm_cosmosdb_mongo_database" "todoapp" {
-  name                = "test-database"
-  resource_group_name = "OpenCohort21_MarkDunn_ProjectExercise"
-  account_name        = "test-database"
-  throughput          = 400
-}
